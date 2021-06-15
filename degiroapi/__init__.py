@@ -70,22 +70,25 @@ class DeGiro:
     @staticmethod
     def __request(url, cookie=None, payload=None, headers=None, data=None, post_params=None, request_type=__GET_REQUEST,
                   error_message='An error occurred.'):
+        s = requests.session()
+        s.keep_alive = False
+
 
         if request_type == DeGiro.__DELETE_REQUEST:
-            response = requests.delete(url, json=payload)
+            response = s.delete(url, json=payload)
         elif request_type == DeGiro.__GET_REQUEST and cookie:
-            response = requests.get(url, cookies=cookie, verify=False, timeout=5)
+            response = s.get(url, cookies=cookie, verify=True, timeout=5)
         elif request_type == DeGiro.__GET_REQUEST:
-            response = requests.get(url, params=payload, verify=False, timeout=5)
+            response = s.get(url, params=payload, verify=True, timeout=5)
         elif request_type == DeGiro.__POST_REQUEST and headers and data:
-            response = requests.post(url, headers=headers, params=payload, data=data, verify=False, timeout=5)
+            response = s.post(url, headers=headers, params=payload, data=data, verify=True, timeout=5)
         elif request_type == DeGiro.__POST_REQUEST and post_params:
-            response = requests.post(url, params=post_params, json=payload, verify=False, timeout=5)
+            response = s.post(url, params=post_params, json=payload, verify=True, timeout=5)
         elif request_type == DeGiro.__POST_REQUEST:
-            response = requests.post(url, json=payload, verify=False, timeout=5)
+            response = s.post(url, json=payload, verify=True, timeout=5)
         else:
             raise Exception(f'Unknown request type: {request_type}')
-
+        s.close()
         if response.status_code == 200 or response.status_code == 201:
             try:
                 return response.json()

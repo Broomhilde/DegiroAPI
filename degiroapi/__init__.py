@@ -79,6 +79,7 @@ class DeGiro:
         print(data)
         print(post_params)
         print(request_type)
+        print("all")
 
 
         if request_type == DeGiro.__DELETE_REQUEST:

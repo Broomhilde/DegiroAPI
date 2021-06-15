@@ -78,7 +78,7 @@ class DeGiro:
         print(headers)
         print(data)
         print(post_params)
-        print(__GET_REQUEST)
+        print(request_type)
 
 
         if request_type == DeGiro.__DELETE_REQUEST:

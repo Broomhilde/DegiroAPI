@@ -72,6 +72,13 @@ class DeGiro:
                   error_message='An error occurred.'):
         s = requests.session()
         s.keep_alive = False
+        print(url)
+        print(cookie)
+        print(payload)
+        print(headers)
+        print(data)
+        print(post_params)
+        print(__GET_REQUEST)
 
 
         if request_type == DeGiro.__DELETE_REQUEST:

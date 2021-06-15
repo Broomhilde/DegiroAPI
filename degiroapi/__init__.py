@@ -88,7 +88,7 @@ class DeGiro:
             response = s.post(url, json=payload, verify=False, timeout=None)
         else:
             raise Exception(f'Unknown request type: {request_type}')
-        s.close()
+        #s.close()
         if response.status_code == 200 or response.status_code == 201:
             try:
                 return response.json()

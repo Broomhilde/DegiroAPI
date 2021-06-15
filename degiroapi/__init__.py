@@ -74,15 +74,15 @@ class DeGiro:
         if request_type == DeGiro.__DELETE_REQUEST:
             response = requests.delete(url, json=payload)
         elif request_type == DeGiro.__GET_REQUEST and cookie:
-            response = requests.get(url, cookies=cookie)
+            response = requests.get(url, cookies=cookie, verify=False, timeout=5)
         elif request_type == DeGiro.__GET_REQUEST:
-            response = requests.get(url, params=payload)
+            response = requests.get(url, params=payload, verify=False, timeout=5)
         elif request_type == DeGiro.__POST_REQUEST and headers and data:
-            response = requests.post(url, headers=headers, params=payload, data=data)
+            response = requests.post(url, headers=headers, params=payload, data=data, verify=False, timeout=5)
         elif request_type == DeGiro.__POST_REQUEST and post_params:
-            response = requests.post(url, params=post_params, json=payload)
+            response = requests.post(url, params=post_params, json=payload, verify=False, timeout=5)
         elif request_type == DeGiro.__POST_REQUEST:
-            response = requests.post(url, json=payload)
+            response = requests.post(url, json=payload, verify=False, timeout=5)
         else:
             raise Exception(f'Unknown request type: {request_type}')
 

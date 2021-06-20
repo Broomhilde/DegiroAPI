@@ -3,6 +3,7 @@ from degiroapi.order import Order
 from degiroapi.client_info import ClientInfo
 from degiroapi.datatypes import Data
 from degiroapi.intervaltypes import Interval
+from getuseragent import UserAgent
 import os
 
 class DeGiro:
@@ -33,6 +34,7 @@ class DeGiro:
     session_id = any
     client_info = any
     confirmation_id = any
+
 
     def login(self, username, password):
         login_payload = {
@@ -71,8 +73,9 @@ class DeGiro:
     def __request(url, cookie=None, payload=None, headers=None, data=None, post_params=None, request_type=__GET_REQUEST,
                   error_message='An error occurred.'):
         s = requests.session()
-        s.keep_alive = False
-        os.environ['NO_PROXY'] = 'degiro.nl'
+        #s.keep_alive = False
+        #os.environ['NO_PROXY'] = 'degiro.nl'
+        myuseragent = UserAgent("chrome", requestsPrefix=True).Random()
 
         if request_type == DeGiro.__DELETE_REQUEST:
             response = s.delete(url, json=payload)
@@ -81,11 +84,11 @@ class DeGiro:
         elif request_type == DeGiro.__GET_REQUEST:
             response = s.get(url, params=payload, verify=True, timeout=None)
         elif request_type == DeGiro.__POST_REQUEST and headers and data:
-            response = s.get(url, headers=headers, params=payload, data=data, verify=True, timeout=None)
+            response = s.post(url, headers=myuseragent, params=payload, data=data, verify=True, timeout=None)
         elif request_type == DeGiro.__POST_REQUEST and post_params:
-            response = s.get(url, params=post_params, json=payload, verify=True, timeout=None)
+            response = s.post(url, headers=myuseragent, params=post_params, json=payload, verify=True, timeout=None)
         elif request_type == DeGiro.__POST_REQUEST:
-            response = s.get(url, json=payload, verify=True, timeout=None)
+            response = s.post(url, headers=myuseragent,json=payload, verify=True, timeout=None)
         else:
             raise Exception(f'Unknown request type: {request_type}')
         #s.close()

@@ -72,7 +72,7 @@ class DeGiro:
     @staticmethod
     def __request(url, cookie=None, payload=None, headers=None, data=None, post_params=None, request_type=__GET_REQUEST,
                   error_message='An error occurred.'):
-        s = requests.session()
+        #s = requests.session()
         #s.keep_alive = False
         #os.environ['NO_PROXY'] = 'degiro.nl'
         myuseragent = UserAgent("chrome", requestsPrefix=True).Random()

@@ -3,7 +3,7 @@ from degiroapi.order import Order
 from degiroapi.client_info import ClientInfo
 from degiroapi.datatypes import Data
 from degiroapi.intervaltypes import Interval
-
+import os
 
 class DeGiro:
     __LOGIN_URL = 'https://trader.degiro.nl/login/secure/login'
@@ -72,15 +72,7 @@ class DeGiro:
                   error_message='An error occurred.'):
         s = requests.session()
         s.keep_alive = False
-        print(url)
-        print(cookie)
-        print(payload)
-        print(headers)
-        print(data)
-        print(post_params)
-        print(request_type)
-        print("all")
-
+        os.environ['NO_PROXY'] = 'degiro.nl'
 
         if request_type == DeGiro.__DELETE_REQUEST:
             response = s.delete(url, json=payload)
@@ -154,8 +146,10 @@ class DeGiro:
             for d in data:
                 if d['isActive']:
                     data_not_executed.append(d)
+                    print("data_not_executed")
             return data_not_executed
         else:
+            print(data)
             return data
 
     def delete_order(self, orderId):
